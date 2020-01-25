@@ -11,7 +11,8 @@
 {-# LANGUAGE TupleSections #-}
 
 module Math.Combinatorics
-  ( both
+  ( (&&&)
+  , both
   , choose
   , decomps
   , doubleFactorial
@@ -81,6 +82,10 @@ ive p = if p then 1 else 0
 
 both :: (a -> b) -> (a, a) -> (b, b)
 both f (x, y) = (f x, f y)
+
+(&&&) :: (a -> b) -> (a -> c) -> a -> (b, c)
+f &&& g = \x -> (f x, g x)
+-- cannot write this as @both ($x)@ since that monomorphises @($x)@
 
 weight :: Partition -> Int
 weight = sum . fromPartition

@@ -18,15 +18,18 @@ maintainer:          gesh@gesh.uni.cx
 
 library
   exposed-modules:     Trace, Test
-  other-modules:       Math.Combinatorics,
-                       Math.TypeNats
+  other-modules:       Math.Combinatorics, Math.MonoidAlgebra,
+                       Math.Representations, Math.TrigPoly, Math.Weyl,
+                       Math.TypeNats,
+                       Numeric.Orphans, Numeric.Wrapped
   -- other-extensions:
-  build-depends:       base ^>=4.13.0.0,
+  build-depends:       base ^>=4.13.0.0, transformers, containers,
                        QuickCheck,
                        combinat,
+                       algebra, adjunctions, distributive,
                        vector-sized, finite-typelits,
                        ghc-typelits-knownnat, ghc-typelits-natnormalise,
-                       typelits-witnesses, constraints
+                       constraints, reflection
   -- hs-source-dirs:
   default-language:    Haskell2010
   ghc-options:         -Wall

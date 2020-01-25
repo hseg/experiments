@@ -1,0 +1,18 @@
+Goodman, Wallach - pp. 349, 380
+Meckes - ch 3
+
+https://hackage.haskell.org/package/combinat-0.2.9.0/docs/Math-Combinat-Partitions-Integer.html
+https://hackage.haskell.org/package/QuickCheck-2.12.6.1/docs/Test-QuickCheck.html#g:8
+https://hackage.haskell.org/package/base-4.12.0.0/docs/Debug-Trace.html
+
+computational-algebra *could* be useful, but needs to be brought up to date
+
+https://hackage.haskell.org/package/algebra-4.3.1/docs/Numeric-Coalgebra-Trigonometric.html
+https://hackage.haskell.org/package/algebra-4.3.1/docs/Numeric-Exp.html
+https://hackage.haskell.org/package/algebra-4.3.1/docs/Numeric-Additive-Group.html
+
+https://hackage.haskell.org/package/base-4.11.1.0/docs/GHC-TypeNats.html
+https://hackage.haskell.org/package/finite-typelits
+https://hackage.haskell.org/package/ghc-typelits-natnormalise
+https://hackage.haskell.org/package/vector-sized-1.4.0.0/docs/Data-Vector-Sized.html
+https://hackage.haskell.org/package/vector-0.12.0.3/docs/Data-Vector.html

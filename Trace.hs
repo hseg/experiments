@@ -4,6 +4,7 @@
 module Trace
   ( eqns
   , stolz
+  , weyl
   , gesh
   , table
   )
@@ -17,6 +18,10 @@ import           Math.Combinatorics             ( both
                                                 , matching
                                                 , weight
                                                 )
+import           Math.Weyl                      ( weylInteg )
+import           Math.Representations           ( so
+                                                , so'
+                                                )
 
 import           Math.Combinat.Partitions.Integer
                                                 ( Partition
@@ -27,22 +32,24 @@ import           Data.List                      ( group )
 import           Data.Maybe                     ( listToMaybe
                                                 , fromMaybe
                                                 )
-import           Control.Applicative            ( liftA2 )
-
-import           Data.Proxy                     ( Proxy )
-import           GHC.TypeNats                   ( SomeNat(..)
+import           GHC.TypeNats                   ( KnownNat
+                                                , SomeNat(..)
                                                 , someNatVal
                                                 )
+import           Data.Proxy                     ( Proxy(..) )
+import           Data.Vector.Sized              ( Vector )
+import           Control.Applicative            ( liftA2 )
 
 expNot :: Partition -> [(Int, Int)]
 expNot = map collapseOccs . group . fromPartition
   where collapseOccs xs = (length xs, fromMaybe 1 $ listToMaybe xs)
 
 eqns :: [Int -> Partition -> Either Int Int]
-stolz, gesh, table :: Int -> Partition -> Either Int Int
-eqns@(stolz : gesh : table : _) = map
+stolz, weyl, gesh, table :: Int -> Partition -> Either Int Int
+eqns@(stolz : weyl : gesh : table : _) = map
   (\(p, f) -> curry $ liftA2 s2p p (uncurry f))
   [ (\(n, l) -> weight l <= 2 * n, stolz')
+  , (\(_, _) -> False            , weyl')
   , (\(n, _) -> n <= 3           , gesh')
   , ((`elem` map fst known), curry $ fromMaybe 0 . flip lookup known)
   ]
@@ -50,7 +57,7 @@ eqns@(stolz : gesh : table : _) = map
   s2p True  = Right
   s2p False = Left
 
-stolz', gesh' :: Int -> Partition -> Int
+stolz', weyl', gesh' :: Int -> Partition -> Int
 
 stolz' = const $ product . map f . expNot
  where
@@ -71,6 +78,14 @@ stolz' = const $ product . map f . expNot
     (SomeNat (_ :: Proxy n'), SomeNat (_ :: Proxy k')) ->
       fromIntegral $ length (choose @k' $ std @n')
   offsets j a = j ^ (a `quot` 2)
+
+weyl' n = case someNatVal (fromIntegral n) of
+  (SomeNat (_ :: Proxy n')) -> floor . weylIntO @n' . pows . expNot
+ where
+  pows :: [(Int, Int)] -> Vector n' Double -> Double
+  pows ajs hs = product [ sum (fmap (^ j) hs) ^ a | (a, j) <- ajs ]
+  weylIntO :: forall n . KnownNat n => (Vector n Double -> Double) -> Double
+  weylIntO f = (weylInteg (so @n) f + weylInteg (so' @n) f) / 2
 
 gesh' 1 l = ive . even $ weight l
 gesh' 2 l =
