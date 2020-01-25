@@ -1,0 +1,6 @@
+[submodule "algebra"]
+	path = algebra
+	url = https://github.com/ekmett/algebra
+[submodule "typelits-witnesses"]
+    path = typelits-witnesses
+    url = https://github.com/hseg/typelits-witnesses
