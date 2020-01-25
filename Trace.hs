@@ -1,3 +1,6 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
+
 module Trace
   ( eqns
   , stolz
@@ -25,6 +28,11 @@ import           Data.Maybe                     ( listToMaybe
                                                 , fromMaybe
                                                 )
 import           Control.Applicative            ( liftA2 )
+
+import           Data.Proxy                     ( Proxy )
+import           GHC.TypeNats                   ( SomeNat(..)
+                                                , someNatVal
+                                                )
 
 expNot :: Partition -> [(Int, Int)]
 expNot = map collapseOccs . group . fromPartition
@@ -59,7 +67,9 @@ stolz' = const $ product . map f . expNot
       a `c` (2 * d) * offsets j d * matching d
     | otherwise = error "impossible"
 
-  n `c` k = fromIntegral $ length (std n `choose` k)
+  n `c` k = case (someNatVal n, someNatVal k) of
+    (SomeNat (_ :: Proxy n'), SomeNat (_ :: Proxy k')) ->
+      fromIntegral $ length (choose @k' $ std @n')
   offsets j a = j ^ (a `quot` 2)
 
 gesh' 1 l = ive . even $ weight l
