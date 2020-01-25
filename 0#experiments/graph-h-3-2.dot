@@ -1,0 +1,67 @@
+graph G {
+  graph [
+    overlap=prism;
+    label = "Note: Highlit vertices are all connected to a fifteenth vertex ∗\n
+    Partitions are labeled counterclockwise starting from right\n
+    ∗ is the partition given by the diagonals of a hexagon\n
+    The Ξi are the partitions given by cutting a hexagon in the i direction\n
+    The Hi are the partitions given by taking the i diagonal and connecting each
+    remaining vertex with its farthest neighbour\n
+    The xi are the partitions where i points to the pair of consecutive vertices
+    joined together and the remaining vertices are joined non-consecutively\n
+    *   *   *\n
+    Consider a particular (2,4)-partition. In case the 2 element is consecutive,
+    we must either be in a (∆,∇)/x or Ξ/x intersection case, with x unique.
+    Otherwise, we must be in a x/H case, with H unique and x one of two
+    consecutive angles."
+  ]
+
+  node [fillcolor=white]
+
+  {
+    ∇ -- "x↑" [label="23|1456"]
+    ∇ -- "x↙" [label="45|1236"]
+    ∇ -- "x↘" [label="16|2345"]
+  }
+
+  { node [style=filled, fillcolor=gray]; "Ξ-" "Ξ⧵" "Ξ/" "H-" "H⧵" "H/" }
+
+  {
+    "x↗" -- ∆ [label="12|3456"]
+    "x↖" -- ∆ [label="34|1256"]
+    "x↓" -- ∆ [label="56|1234"]
+  }
+
+  {
+    edge [color=red, fontcolor=red]
+
+    "x↑" -- "Ξ-" [label="23|1456"]
+    "x↙" -- "Ξ⧵" [label="45|1236"]
+    "x↘" -- "Ξ/" [label="16|2345"]
+
+    "x↑" -- "H⧵" [label="15|2346"]
+    "x↑" -- "H/" [label="46|1235"]
+
+    "x↙" -- "H/" [label="13|2456"]
+    "x↙" -- "H-" [label="26|1345"]
+
+    "x↘" -- "H-" [label="35|1246"]
+    "x↘" -- "H⧵" [label="24|1356"]
+  }
+  {
+    edge [color=green, fontcolor=green]
+
+    "x↓" -- "Ξ-" [label="56|1234"]
+    "x↗" -- "Ξ⧵" [label="12|3456"]
+    "x↖" -- "Ξ/" [label="34|1256"]
+
+    "x↓" -- "H⧵" [label="24|1356"]
+    "x↓" -- "H/" [label="13|2456"]
+
+    "x↗" -- "H/" [label="46|1235"]
+    "x↗" -- "H-" [label="35|1246"]
+
+    "x↖" -- "H-" [label="26|1345"]
+    "x↖" -- "H⧵" [label="15|2346"]
+  }
+}
