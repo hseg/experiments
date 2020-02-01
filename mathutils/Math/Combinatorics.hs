@@ -20,14 +20,8 @@ module Math.Combinatorics
   , multiFactorial
   , matching
   , std
-  , weight
   )
 where
-
-import           Math.Combinat.Partitions.Integer
-                                                ( Partition
-                                                , fromPartition
-                                                )
 
 import           Data.Function                  ( on )
 import           Data.List                      ( groupBy
@@ -82,8 +76,9 @@ ive p = if p then 1 else 0
 both :: (a -> b) -> (a, a) -> (b, b)
 both f (x, y) = (f x, f y)
 
-weight :: Partition -> Int
-weight = sum . fromPartition
+(&&&) :: (a -> b) -> (a -> c) -> a -> (b, c)
+f &&& g = \x -> (f x, g x)
+-- cannot write this as @both ($x)@ since that monomorphises @($x)@
 
 -- Might want to export some kind of lens exposing a list's length, under iso
 -- std↔fromIntegral.length

@@ -1,3 +1,5 @@
 dist-newstyle
-session.sh
-experiments.vim
+cabal.project.local
+cabal.project.local~
+bmarks
+todo

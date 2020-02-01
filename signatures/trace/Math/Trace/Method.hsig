@@ -1,0 +1,7 @@
+signature Math.Trace.Method where
+
+import           Math.Combinat.Partitions.Integer
+                                                ( Partition )
+
+domain :: (Int, Partition) -> Bool
+method :: Int -> Partition -> Int

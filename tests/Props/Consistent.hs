@@ -2,9 +2,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Test where
+module Props.Consistent where
 
-import           Trace                          ( eqns )
+import           Math.Trace.O.Index             ( impls )
 
 import           Math.Combinat.Partitions.Integer
                                                 ( partitionsWithKParts )
@@ -15,8 +15,8 @@ import           Data.Either                    ( rights )
 import           Control.Applicative            ( liftA2 )
 import           Data.Coerce                    ( coerce )
 
-prop_eqns_consistent :: Property
-prop_eqns_consistent =
+prop_impls_consistent :: Property
+prop_impls_consistent =
   forAll
       (liftA2
         (,)
@@ -28,7 +28,7 @@ prop_eqns_consistent =
         .          coerce
         )
       )
-    $ consistent (map uncurry eqns)
+    $ consistent (map uncurry impls)
 
 consistent :: Eq b => [a -> Either e b] -> a -> Bool
 consistent = flip (\x -> (<= 1) . length . group . rights . map ($ x))

@@ -8,7 +8,14 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeOperators #-}
 
-module Math.TypeNats where
+module Math.TypeNats
+  ( cataKnownNat
+  , axiom
+  , reifyNat
+  , reflectNat
+  , reifyNats
+  )
+where
 
 import           Data.Proxy                     ( Proxy(..) )
 import           GHC.TypeNats                   ( KnownNat
@@ -29,3 +36,20 @@ cataKnownNat z s = case natVal (Proxy @n) of
 unsafeRefl :: forall c r . (c => r) -> r
 unsafeRefl k = case unsafeCoerce (Dict :: Dict (a ~ a)) :: Dict c of
   Dict -> k
+
+reifyNats
+  :: Integer
+  -> Integer
+  -> (  forall (n :: Nat) (m :: Nat)
+      . (KnownNat n, KnownNat m)
+     => Proxy n
+     -> Proxy m
+     -> r
+     )
+  -> r
+reifyNats n m k = reifyNat n (\pn -> reifyNat m (\pm -> k pn pm))
+{- HLINT ignore reifyNats "Avoid lambda" -}
+-- without lambda, unification doesn't happen
+
+reflectNat :: forall n a. (KnownNat n, Num a) => a
+reflectNat = fromIntegral . natVal $ Proxy @n
